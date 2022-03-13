@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+}
+
+group pGroup
+
+sourceCompatibility = 1.8
+
+sourceSets.main {
+    java.srcDir("core/src/")
+    resources.srcDir("core/assets/")
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation "com.github.Anuken.Mindustry:core:$pMindustryVersion"
+    implementation "com.github.Anuken.Mindustry:annotations:$pMindustryVersion"
+    implementation "com.github.Anuken.Arc:arc-core:$pArcVersion"
+}
+
+jar {
+    archiveFileName.set pArtifactFilename
+}
+
+class helloTask extends DefaultTask{
+    String greeting = "2"
+    @TaskAction
+    def greet(){
+        println("$greeting, hello from extended class!")
+    }
+}
+
+task hello(type: helloTask){
+    greeting = "oh, hi there"
+    doLast {
+        println("hello world!")
+    }
+}
+
+class rollCredits extends DefaultTask{
+
+}
+
+task helloWorld(type: rollCredits){
+    doLast {
+        println("Never gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you")
+    }
+}
+
+task dexify(type: Jar) {
+    archiveName "dexed-$pArtifactFilename"
+
+    final File jarArtifact = new File(tasks.jar.archiveFile.get().asFile.parent, pArtifactFilename),
+               dexedArtifact = new File(tasks.dexify.getTemporaryDir(), "Dexed.jar")
+    doFirst {
+        exec {
+            workingDir dexedArtifact.parent
+            def command = ["d8", "--min-api", pMinApi, "--output", dexedArtifact, jarArtifact]
+            if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows'))
+                commandLine("cmd", "/c", *command)
+            else
+                commandLine(*command)
+
+        }
+    }
+
+    from(zipTree(jarArtifact), zipTree(dexedArtifact))
+}
+
+task buildDex dependsOn "build", "dexify"

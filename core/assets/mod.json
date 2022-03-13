@@ -1,0 +1,12 @@
+{
+  "name": "unit-construct",
+  "displayName": "Unit Construct",
+  "author": "Someone",
+  "description": "aaaaAAAAAAAAAAAAAAAAAAAAAAAA",
+  "version": "1.0 beta",
+  "main": "construct.UnitConstruct",
+  "minGameVersion": "126.2",
+  "hidden": false,
+  "java": true,
+  "repo": "h"
+}
