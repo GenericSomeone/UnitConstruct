@@ -35,6 +35,9 @@ Attempting to put a weapon into a slot that does not exist on a unit or attempti
 ## Credits
 
 Mod created by GenericSomeone
+
 Mod is built off of Sh1penfire/Endless-Rusting, which is built off of Sonnicon/mindustry-modtemplate
+
 Entity mapping by GlennFolker
+
 Special thanks to the above authors, as well as anyone who helped me in Discord
